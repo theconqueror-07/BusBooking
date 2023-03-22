@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { response } = require('express');
 const jwt=require('jsonwebtoken')
 
+
 router.post('/register',async(req,res)=>{
     try{
             const existingUser = await User.findOne({email: req.body.email});
