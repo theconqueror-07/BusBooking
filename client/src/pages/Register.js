@@ -3,17 +3,23 @@ import { Form } from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
+import { useDispatch } from "react-redux";
+import { ShowLoading,HideLoading } from "../redux/alertsSlice";
 
 function Register() {
+  const dispatch=useDispatch();
   const onFinish = async (values) => {
     try {
+      dispatch(ShowLoading());
       const response = await axios.post("/api/users/register", values);
+      dispatch(HideLoading());
       if (response.data.success) {
         message.success(response.data.message);
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
+      dispatch(HideLoading());
       message.error(error.message);
     }
   };

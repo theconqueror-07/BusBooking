@@ -3,6 +3,7 @@ const User = require('../models/usersModel');
 const bcrypt = require("bcryptjs");
 const { response } = require('express');
 const jwt=require('jsonwebtoken')
+const authMiddleware =require("../middlewares/authMiddleware")
 
 router.post('/register',async(req,res)=>{
     try{
@@ -77,5 +78,22 @@ res.send({
        data: null})
     }
 });
+router.post("/get-user-by-id", authMiddleware ,async(req,res)=>{
+    try {
+        const user = await User.findById(req.body.userId);
+        res.send({
+            message: "User fetched succesfully",
+            success: true,
+            data:user
+        });
+    } catch (error) {
+        res.send({
+        message: error.message,
+        success: false,
+        data:null,
+    });
+    }
+
+})
 
 module.exports = router
