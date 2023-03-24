@@ -1,10 +1,11 @@
 import { message } from 'antd';
 import axios from 'axios';
-import React, {  useEffect, useState } from 'react'
+import React, {  useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { SetUser } from '../redux/usersSlice';
 import { HideLoading, ShowLoading } from "../redux/alertsSlice";
+import DefaultLayout from './DefaultLayout';
 
 function ProtectedRoute({children}) {
     const dispatch=useDispatch();
@@ -51,8 +52,9 @@ function ProtectedRoute({children}) {
 
         }
     }, [])
+
     return (
-        <div>{loading? <div>Loading...</div> :<>{children}</> }</div>
+        <div>{!loading &&  <DefaultLayout>{children}</DefaultLayout> }</div>
     )
 }
 
