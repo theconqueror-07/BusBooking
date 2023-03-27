@@ -6,7 +6,7 @@ function SeatSelection({selectedSeats,setSelectedSeats,bus}) {
   const capacity = bus.capacity;
   const selectorUnselectSeats = (seatNumber)=>{
     if (selectedSeats.includes(seatNumber)){
-      setSelectedSeats(selectedSeats.filter((seat)=> seat != seatNumber))
+      setSelectedSeats(selectedSeats.filter((seat)=> seat !== seatNumber))
     }
     else{
       setSelectedSeats([...selectedSeats,seatNumber ])
@@ -23,6 +23,10 @@ function SeatSelection({selectedSeats,setSelectedSeats,bus}) {
             {
                 seatClass='selected-seat'
             }
+            // else if (bus.seatsBooked.includes(seat+1))
+            // {
+            //   seatClass="booked-seat"
+            // }
           return (
               <Col span={6}>
                 <div className={`seat ${seatClass}`} 

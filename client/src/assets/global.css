@@ -44,7 +44,7 @@ input
 
 .primary-btn
 {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -53,7 +53,7 @@ input
 
 .secondary-btn
 {
-    background-color: var(--secondary);
+    background-color: var(--secondary) !important;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -61,7 +61,7 @@ input
 }
 
 a{
-    color: var(--primary);
+    color: var(--primary) !important;
     text-decoration: none;
 }
 
@@ -99,4 +99,18 @@ h1,p{
 .underline{
     text-decoration: underline;
     cursor: pointer;
+}
+
+.disabled-btn
+{
+    background-color: gray;
+    color: gray;
+    border: none !important;
+    padding: 10px 20px;
+    cursor: not-allowed;
+    border-radius: 0 !important;
+} 
+
+button{
+    border-radius: 0 !important;
 }

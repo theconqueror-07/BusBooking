@@ -14,6 +14,7 @@ function Booknow() {
     const params = useParams()
     const dispatch = useDispatch();
     const [bus, setBus] = useState([]);
+
     const getBus = async () => {
         try {
           dispatch(ShowLoading());
@@ -29,7 +30,29 @@ function Booknow() {
           message.error(error.message);
         }
       };
-    useEffect(() => {
+
+      const bookNow = async () => {
+        try {
+          dispatch(ShowLoading());
+          const response = await axiosInstance.post("/api/bookings/book-seat", {
+            bus: bus._id,
+            seats: selectedSeats,
+          });
+          dispatch(HideLoading());
+          if (response.data.success) {
+            message.success(response.data.message);
+            // navigate("/bookings");
+          } else {
+            message.error(response.data.message);
+          }
+        } catch (error) {
+          dispatch(HideLoading());
+          message.error(error.message);
+        }
+      };
+
+    useEffect
+    (() => {
         getBus();
       }, []);
   return (
@@ -40,10 +63,11 @@ function Booknow() {
             <h1 className='text-md'>{bus.from}-{bus.to}</h1>
             <hr/>
             <div className='flex flex-col gap-1'>
-                <h1 className='text-lg'>Journey Date : {bus.journeyDate}</h1>
-                <h1 className='text-lg'>Fare : {bus.fare}/-</h1>
-                <h1 className='text-lg'>Departure Time : {bus.departure}</h1>
-                <h1 className='text-lg'>Arrival Time : {bus.arrival }</h1>
+                <h1 className='text-lg'><b>Fare</b> : {bus.fare}/-</h1>
+                <h1 className='text-lg'><b>Departure Time</b> : {bus.departure}</h1>
+                <h1 className='text-lg'><b>Arrival Time</b> {bus.arrival }</h1>
+                <h1 className='text-lg'><b>Capacity</b> : {bus.capacity }</h1>
+                {/* <h1 className='text-lg'><b>Seats Left</b> : {bus.capacity-bus.seatsBooked.length}</h1> */}
                
 
             </div>
@@ -55,7 +79,9 @@ function Booknow() {
             </h1> 
             <h1 className='text-2xl mt-2'>Price: Rs<b>{bus.fare*selectedSeats.length}</b></h1>
            </div>
-           <button className='secondary-btn'>Book Now</button>
+           <button className={`btn btn-primary ${
+            selectedSeats.length===0 && "disabled-btn"
+           }`} onClick={bookNow} disabled={selectedSeats.length===0}>Book Now</button>
            
         </Col>
         <Col lg={12} xs={24} sm={24}>
