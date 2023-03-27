@@ -29,6 +29,7 @@ function BusForm({
       }
       if (response.data.success) {
         message.success(response.data.message);
+        console.log(response.data)
       } else {
         message.error(response.data.message);
       }

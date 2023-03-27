@@ -18,8 +18,10 @@ input
 
 .card
 {
-    border: 2px solid gray;
+    padding: 1rem;
+    border: 2px solid rgba(232, 220, 220, 0.456);
     box-shadow: 0 0 2px gray;
+    border-radius: 0;
 }
 
 .text-2xl
@@ -63,6 +65,16 @@ a{
     text-decoration: none;
 }
 
+i{
+    cursor: pointer;
+    font-size: 25px;
+}
+
+h1,p{
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 
 
 .spinner-parent {
@@ -84,4 +96,7 @@ a{
   }
   
 
-
+.underline{
+    text-decoration: underline;
+    cursor: pointer;
+}

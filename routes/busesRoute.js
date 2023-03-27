@@ -54,9 +54,9 @@ router.post("/delete-bus", authMiddleware, async (req, res) => {
 
 // get-all-buses
 
-router.post("/get-all-buses", authMiddleware, async (req, res) => {
+router.get("/get-all-buses", authMiddleware, async (req, res) => {
   try {
-    const buses = await Bus.find(req.body);
+    const buses = await Bus.find({});
     return res.status(200).send({
       success: true,
       message: "Buses fetched successfully",

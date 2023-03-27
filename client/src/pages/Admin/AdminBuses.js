@@ -147,9 +147,9 @@ function AdminBuses() {
   const getBuses = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.post("/api/buses/get-all-buses", {});
+      const response = await axiosInstance.get("/api/buses/get-all-buses", {});
       dispatch(HideLoading());
-      if (response.data.success) {
+      if (response.data.success) {console.log(response.data.data)
         setBuses(response.data.data);
       } else {
         message.error(response.data.message);
