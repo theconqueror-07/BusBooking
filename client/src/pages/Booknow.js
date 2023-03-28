@@ -22,6 +22,7 @@ function Booknow() {
     const params = useParams()
     const dispatch = useDispatch();
     const [bus, setBus] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getBus = async () => {
         try {
@@ -39,13 +40,13 @@ function Booknow() {
         }
       };
 
-      const bookNow = async (transactionId) => {
+      const bookNow = async () => {
         try {
           dispatch(ShowLoading());
           const response = await axiosInstance.post("/api/bookings/book-seat", {
             bus: bus._id,
             seats: selectedSeats,
-            transactionId,
+            
           });
           dispatch(HideLoading());
           if (response.data.success) {
@@ -61,31 +62,32 @@ function Booknow() {
       };
 
       const onToken=async(token)=>{
-        try{
-          dispatch(ShowLoading());
-          const response =await axiosInstance.post("/api/bookings/make-payment",{
-            token,
-            amount: selectedSeats.length * bus.fare * 100,
-          });
-          dispatch(HideLoading());
-          if(response.data.success)
-          {
-            message.success(response.data.message);
-            bookNow(response.data.data.transactionId);
-          }
-          else
-          {
-            message.error(response.data.message)
-          }
-        }catch (error){
-          dispatch(HideLoading());
-          message.error(error.message);
-        }
+        bookNow()
+        // try{
+        //   dispatch(ShowLoading());
+        //   const response =await axiosInstance.post("/api/bookings/make-payment",{
+        //     token,
+        //     amount: selectedSeats.length * bus.fare * 100,
+        //   });
+        //   dispatch(HideLoading());
+        //   if(response.data.success)
+        //   {
+        //     message.success(response.data.message);
+        //     bookNow(response.data.data.transactionId);
+        //   }
+        //   else
+        //   {
+        //     message.error(response.data.message)
+        //   }
+        // }catch (error){
+        //   dispatch(HideLoading());
+        //   message.error(error.message);
+        // }
       };
 
     useEffect
     (() => {
-        getBus();
+        getBus() &&setLoading(false)
       }, []);
 
   return (
