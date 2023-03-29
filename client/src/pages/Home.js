@@ -90,7 +90,7 @@ function Home() {
             }>Clear</button> */}
             <button className='secondary-btn' onClick={()=>setFilters({
               from: "", to: "", journeyDate:"",
-            })}>Clear</button>
+            })}>Clear</button> 
             </div>
           </Col>
         </Row>
