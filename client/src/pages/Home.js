@@ -21,10 +21,11 @@ function Home() {
         tempFilters[key]=filters[key];
       }
     })
-    // , tempFilters
+    // , 
+    console.log(tempFilters)
     try {
       dispatch(ShowLoading());
-      const response = await axiosInstance.get("/api/buses/get-all-buses");
+      const response = await axiosInstance.post("/api/buses/get-all-buses",tempFilters);
       dispatch(HideLoading());
       if (response.data.success) {console.log(response.data.data)
         setBuses(response.data.data);
