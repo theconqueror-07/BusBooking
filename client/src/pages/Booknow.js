@@ -5,7 +5,7 @@ import { HideLoading,ShowLoading } from '../redux/alertsSlice';
 import { useState,useEffect } from 'react';
 import { message,Col,Row } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SeatSelection from '../components/SeatSelection';
 import StripeCheckout from 'react-stripe-checkout';
 
@@ -20,6 +20,7 @@ import StripeCheckout from 'react-stripe-checkout';
 function Booknow() {
    const [selectedSeats,setSelectedSeats]=useState([]);
     const params = useParams()
+    const navigate=useNavigate();
     const dispatch = useDispatch();
     const [bus, setBus] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ function Booknow() {
           dispatch(HideLoading());
           if (response.data.success) {console.log(response.data.data)
             setBus(response.data.data);
+            // navigate("/bookings");
           } else {
             message.error(response.data.message);
           }
@@ -51,7 +53,7 @@ function Booknow() {
           dispatch(HideLoading());
           if (response.data.success) {
             message.success(response.data.message);
-            // navigate("/bookings");
+            navigate("/bookings");
           } else {
             message.error(response.data.message);
           }
@@ -92,7 +94,7 @@ function Booknow() {
 
   return (
     <div>
-    {bus && (<Row className='mt-3' gutter={20}>
+    {bus && (<Row className='mt-3' gutter={[30,30]}>
         <Col lg={12} xs={24} sm={24}>
             <h1 className='text-xl text-secondary'>{bus.name}</h1>
             <h1 className='text-md'>{bus.from}-{bus.to}</h1>
@@ -124,7 +126,7 @@ function Booknow() {
         stripeKey="pk_test_51MqRR1SDx1AnvBM8yVwRLh2OTXOyGDdoq0TwV9UndHqiWU8XIN88iRLPOf4MrD9TpBsOoNdtEbdzJ0P9zRFacTJR00H0jUbrut">
         <button className={`btn btn-primary ${
           selectedSeats.length===0 && "disabled-btn"
-         }`} onClick={bookNow} disabled={selectedSeats.length===0}>Book Now</button>
+         }`}  disabled={selectedSeats.length===0}>Book Now</button>
       </StripeCheckout>
           
            
