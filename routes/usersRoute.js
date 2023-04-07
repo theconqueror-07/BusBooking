@@ -35,6 +35,7 @@ router.post('/register',async(req,res)=>{
 })
 
 router.post('/login', async(req,res)=>{
+    // console.log(req.body())
     try
     {
         const userExists=await User.findOne({email:req.body.email});
@@ -46,6 +47,15 @@ router.post('/login', async(req,res)=>{
                 data: null
             });
         }
+
+        if (userExists.isBlocked) {
+            return res.send({
+              message: "Your account is blocked , please contact admin",
+              success: false,
+              data: null,
+            });
+          }
+          
         const passwordMatch=await bcrypt.compare(
             req.body.password, userExists.password
         );
@@ -95,5 +105,42 @@ router.post("/get-user-by-id", authMiddleware ,async(req,res)=>{
     }
 
 })
+
+router.get("/get-all-users", authMiddleware,async(req,res)=>{
+    try
+    {
+        const users=await User.find({});
+        console.log(users);
+        res.send({
+            message: "Users fetched succesfully",
+            success: true,
+            data: users,
+        });
+    }catch(error){
+        res.send({
+            message: error.message,
+            success: false,
+            data: null
+        })
+    }
+    }
+)
+
+router.post("/update-user-permissions", authMiddleware, async (req, res) => {
+    try {
+      await User.findByIdAndUpdate(req.body._id, req.body);
+      res.send({
+        message: "User permissions updated successfully",
+        success: true,
+        data: null,
+      });
+    } catch {
+      res.send({
+        message: error.message,
+        success: false,
+        data: null,
+      });
+    }
+  });
 
 module.exports = router
